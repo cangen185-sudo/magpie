@@ -3971,16 +3971,15 @@ function routingPage(part) {
     return how === "bad" || how === "gone";
   }
 
-  // a request's row's title: the way it went, to the one that took it
-  // once it was rerouted — not the provider it resolved to first, which
-  // the row no longer says (#337)
+  // a request's row's title: the seat answering or that answered, even on
+  // a single try (#6040), then where it was rerouted from (#337)
   function reqTitle(r, how, tr) {
     const head = `${agentName(r.agent)} · ${r.model} → `;
     // the folder its agent works in, the last two levels of it (#1068),
     // and why it went on another model than it named
     const folder = (movedSays(r) ? "\n" + movedWhy(r) : "") + (r.folder ? "\n" + t("Folder") + ": " + r.folder : "")
       + (r.callerKey ? "\n" + t("Gateway key") + ": " + keyName(r) : "");
-    const w = !noAnswer(how) && r.tries.length > 1 && tr && tried(r, tr);
+    const w = !noAnswer(how) && tr && tried(r, tr);
     if (!w) return head + r.provider + folder;
     const first = r.tries[0], f = tried(r, first);
     const from = f && seat(f) !== seat(w) ? "\n" + t("rerouted from {from}", { from: `${where(f)} · ${first.model || f.model}` }) : "";

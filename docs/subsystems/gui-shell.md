@@ -165,6 +165,19 @@ same way.
 [`reasoning-speed.test.cjs`](../../internal/gui/tests/reasoning-speed.test.cjs)
 cover the calculation, cache round trip, translated streams and both pages.
 
+### Routing request titles
+
+The Routing page's request rows and the tray panel use `reqTitle` in
+[`plugins/routing/client.js`](../../internal/gui/assets/plugins/routing/client.js)
+to name the seat answering or that answered, including a single try. The
+provider the request resolved to can differ from the seat actually tried
+(#6040). A later try on another seat also names the first seat as "rerouted
+from"; retrying the same seat does not. With no answering seat, or when its
+details are absent from the trace, the title keeps the resolved provider.
+See `routing-reroute-title.test.cjs` for live and finished requests, failed
+and canceled requests, missing seats, and both window and panel paths in
+all five languages and both engines.
+
 ### Routing purpose filter
 
 The request heading's purpose menu in [`plugins/routing/client.js`](../../internal/gui/assets/plugins/routing/client.js)
